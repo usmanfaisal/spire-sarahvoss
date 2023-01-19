@@ -31,7 +31,7 @@
     <div class="container">
         <div class="row mx-0 justify-content-center">
             <div class="col-md-9 col-lg-7 px-lg-2 col-xl-6 px-xl-0">
-                <div class="card mb-4">
+                <div class="card mb-4" style="margin-top: 50px;">
                     <div class="card-header">
                         <h5 class="mb-0">Address Validator</h5>
                         Validate/Standardizes addresses usign USPS
@@ -190,6 +190,8 @@
                 var zip = document.querySelector('#zip').value;
                 console.log(address1, address2, city, state, zip);
 
+                let url = 'https://us-street.api.smartystreets.com/street-address?auth-id=d06c7ef4-f53b-8c30-007e-69fba52ef1e9&auth-token=n0njfEsuoQyBv882e913';
+                console.log(url);
                 $('.original-address-1').html(address1);
                 $('.original-address-2').html(address2);
                 $('.original-city').html(city);
@@ -197,9 +199,16 @@
                 $('.original-zip').html(zip);
 
                 $.ajax({
-                    url: 'https://us-street.api.smartystreets.com/street-address?auth-id=d06c7ef4-f53b-8c30-007e-69fba52ef1e9&auth-token=n0njfEsuoQyBv882e913&street=' + address1 + '&street2=' + address2 + '&city=' + city + '&state=' + state + '&zipcode=' + zip,
+                    url: url,
                     type: 'GET',
                     dataType: 'json', // added data type
+                    data: {
+                        street: address1,
+                        street2: address2,
+                        city: city,
+                        state: state,
+                        zipcode: zip
+                    },
                     success: function (res) {
                         console.log(res);
 
@@ -261,12 +270,11 @@
 
                     }
                 });
+            });
 
-                // $.post('db.php', {address_line1: address1, address_line2: address2, city: city, state: state, zip: zip}, function(response){ 
-                //     console.log("success");
-                // });
-
-
+            $('#myModal').on('hidden.bs.modal', function () {
+                console.log('modal closed');
+                $('form')[0].reset()
             });
         });
     </script>
